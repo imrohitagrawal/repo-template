@@ -15,7 +15,7 @@ concurrency:
 jobs:
   quality-gate:
     if: github.event.pull_request.draft == false
-    # Pinned by commit SHA, not the mutable `v5` tag, per imrohitagrawal/.github's
+    # Pinned by commit SHA, not the mutable `v6` tag, per imrohitagrawal/.github's
     # versioning policy (see its docs/repo-onboarding.md and the redesign plan's
     # section 4) -- the same SHA-pin treatment WP2 applied to third-party actions
     # inside the reusable workflow, applied one level up to the reusable workflow
