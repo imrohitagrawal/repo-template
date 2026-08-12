@@ -1,0 +1,26 @@
+name: PR Quality Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: pr-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    if: github.event.pull_request.draft == false
+    # Pinned by commit SHA, not the mutable `v5` tag, per imrohitagrawal/.github's
+    # versioning policy (see its docs/repo-onboarding.md and the redesign plan's
+    # section 4) -- the same SHA-pin treatment WP2 applied to third-party actions
+    # inside the reusable workflow, applied one level up to the reusable workflow
+    # reference itself. The `# v5` comment is for human readability only; it is
+    # not consumed by GitHub. To bump: resolve the new tag's commit
+    # (`git -C <clone of imrohitagrawal/.github> rev-parse vN^{commit}`) and
+    # replace both the SHA and the comment together.
+    uses: imrohitagrawal/.github/.github/workflows/reusable-pr-quality.yml@8f4ee577b8ce0ecab419b2d3f0ade5fddf54333c # v5
