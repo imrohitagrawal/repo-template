@@ -15,11 +15,11 @@ concurrency:
 jobs:
   quality-gate:
     if: github.event.pull_request.draft == false
-    # Pinned by commit SHA, not the mutable `v6` tag, per imrohitagrawal/.github's
+    # Pinned by commit SHA, not the mutable `v7` tag, per imrohitagrawal/.github's
     # versioning policy (see its docs/repo-onboarding.md and the redesign plan's
     # section 4) -- the same SHA-pin treatment WP2 applied to third-party actions
     # inside the reusable workflow, applied one level up to the reusable workflow
-    # reference itself. The `# v6` comment is for human readability only; it is
+    # reference itself. The `# v7` comment is for human readability only; it is
     # not consumed by GitHub. To bump: resolve the new tag's commit
     # (`git -C <clone of imrohitagrawal/.github> rev-parse vN^{commit}`) and
     # replace both the SHA and the comment together.
@@ -28,4 +28,13 @@ jobs:
     # native Python path (missing PEP 735 dependency-group install; pip-audit
     # hard-failing on the local editable package), found and fixed within
     # hours of v5's release, before this template repo had any real adopter.
-    uses: imrohitagrawal/.github/.github/workflows/reusable-pr-quality.yml@6bd9eec68b0fa7db8b60de89ee541666893febaa # v6
+    #
+    # Bumped from v6 to v7 (2026-08-14): v6 was 30 commits behind three rounds
+    # of review on the gate itself - including an RCE via a crafted
+    # `packageManager` field, a GITHUB_OUTPUT-forgery variant of the same bug,
+    # and yarn lockfile integrity being silently unenforced (`--immutable` is
+    # a Berry flag that Yarn Classic accepts and ignores). See the v7 release
+    # notes for the one behaviour change that needs a consumer's attention: a
+    # placeholder Makefile target is now correctly distrusted, so the native
+    # lint/typecheck/test step runs instead of being skipped.
+    uses: imrohitagrawal/.github/.github/workflows/reusable-pr-quality.yml@c58ba53059c2a7f7c67f0b8051886f445c220010 # v7
