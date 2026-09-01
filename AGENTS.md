@@ -105,3 +105,27 @@ Choose one:
 - A green `quality-gate` is **necessary but not sufficient**. Human review and Codex review are still required.
 - Do not recommend changes that would weaken CI/CD, remove tests, or remove security checks — even if the change "looks fine".
 - If you find a real P0 issue, escalate in the review with the exact location, the impact, and the suggested fix.
+
+## Building a feature likely needed across future projects
+
+Applies to infrastructure-shaped concerns (auth, payments, email, logging) more than ordinary
+business logic — the same correctness/security mistakes recur every time these get rebuilt from
+scratch, so they earn earlier investment in reusability than typical feature work does.
+
+- **Don't extract a shared package before a second real consumer exists** (rule of three) — a
+  library's boundaries, guessed from one implementation, are usually wrong and cost more to rework
+  than building it twice would have.
+- **Do draw internal seams cheaply while building the first implementation.** Keep pure
+  protocol/mechanism logic (HTTP transport, cryptographic primitives, wire-format parsing) in files
+  with zero app-specific imports — check this holds with `grep "^from app\." <file>` (or your
+  project's own import prefix) returning nothing but trivial exceptions. Give a "flow kind"/"variant"
+  column a plain string type, not a native-DB enum, when the set of values may grow — adding an enum
+  member needs a migration; a string doesn't.
+- **Route "same action, different flavor" through a free-form metadata field on an existing
+  action/event type**, not a new enum member per variant — cheaper, and avoids an enum-migration
+  trap most Postgres-backed projects have.
+- **Write the security invariants down explicitly** (an ADR or design doc), not just in code — these
+  transfer across languages and stacks even when the code doesn't. Treat this document, not the
+  implementation, as the actually-reusable asset until a second consumer justifies extracting code.
+- **A fix for an adversarial-review finding gets its own review round** — a from-scratch reimplementation
+  elsewhere risks repeating exactly the mistake the fix corrected if the fix isn't itself verified.
