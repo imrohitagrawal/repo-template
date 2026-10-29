@@ -14,7 +14,7 @@ consuming that workflow.
 ```text
 .github/workflows/pr-quality.yml   caller workflow, pinned to imrohitagrawal/.github's v7 tag by commit SHA
 .github/CODEOWNERS                 default owner (* @imrohitagrawal) -- edit as the repo grows
-.github/dependabot.yml             github-actions + npm + pip update tracking
+.github/dependabot.yml             github-actions update tracking (examples for other ecosystems inside)
 AGENTS.md                          Codex's review config (severity rules, checklist, output format)
 Makefile.python                    discrete lint/typecheck/test/security targets for a Python repo
 Makefile.node                      discrete lint/typecheck/test/build/audit targets for a Node repo
@@ -55,6 +55,9 @@ This template gets you through the file-copying part of onboarding. It does
    `.github/workflows/pr-quality.yml`'s `quality-gate` job -- without those
    inputs, the reusable workflow only looks for manifests at the repo root
    and won't find either stack in a subdirectory.
+   Then copy the commented example in `.github/dependabot.yml` and set its
+   `package-ecosystem` (`npm`, `pip` or `uv`) so Dependabot tracks your packages.
+
 2. **Open a PR** and let the `quality-gate` check run once. A green check on
    a brand-new repo does not by itself prove every listed check ran and
    would have caught a real problem -- several checks in the reusable
@@ -95,13 +98,14 @@ which this template exists to shorten, not replace.
 SHA and the comment together -- see the comment above the `uses:` line in
 that file for the exact command.
 
-`.github/dependabot.yml` in this template tracks `github-actions`, `npm`,
-and `pip` on a weekly cadence with minor/patch grouping. It's a starting
-point, not a complete config for every repo shape -- delete whichever of the
-`npm`/`pip` blocks doesn't apply to your repo (an ecosystem with no matching
-manifest just finds nothing, but a config entry for a directory that will
-never have one is dead weight worth removing), and add ecosystems (e.g.
-Docker) or per-directory targeting as your repo actually needs them.
+`.github/dependabot.yml` in this template tracks `github-actions` monthly:
+minor and patch updates are grouped, each major version arrives as its own
+pull request, and updates wait 7 days after a release. When your repo gains a
+manifest (`package.json`, `requirements.txt`, `uv.lock`, a `Dockerfile`, a
+compose file), copy the commented example in that file and change its `package-ecosystem`
+(and group name). Add an entry only for a manifest that exists: Dependabot
+needs a manifest or lock file for each entry and opens no pull requests for
+one without.
 
 ## Before you start writing your own code
 

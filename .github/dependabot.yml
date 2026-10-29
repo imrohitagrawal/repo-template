@@ -1,33 +1,39 @@
+# Dependabot version updates. Policy: never ignore major versions; group only minor and patch
+# updates, so each major arrives as its own pull request with its own review and revert; wait 7 days
+# after a release before proposing it (cooldown; use `default-days` only, since per-level days are
+# not supported for every ecosystem). Security updates are separate: not grouped, not delayed and not
+# counted against the limit below.
+#
+# Keep an entry only for an ecosystem whose manifest or lock file the repository really has: an entry
+# without one opens no pull requests. This template has none yet, so only the GitHub Actions entry
+# is active; when you add a manifest, copy the example below and change its package-ecosystem.
 version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "monthly"
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
-      github-actions:
-        patterns: ["*"]
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    groups:
-      npm-minor-patch:
+      actions-minor-patch:
+        applies-to: version-updates
         patterns: ["*"]
         update-types: ["minor", "patch"]
 
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    groups:
-      pip-minor-patch:
-        patterns: ["*"]
-        update-types: ["minor", "patch"]
+  # Examples, same shape (ecosystem names: "npm", "pip", "uv" for a uv.lock, "docker" for
+  # Dockerfiles, "docker-compose" for compose files):
+  #
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 7
+  #   open-pull-requests-limit: 5
+  #   groups:
+  #     npm-minor-patch:
+  #       applies-to: version-updates
+  #       patterns: ["*"]
+  #       update-types: ["minor", "patch"]
