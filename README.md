@@ -12,7 +12,7 @@ consuming that workflow.
 ## What's here
 
 ```text
-.github/workflows/pr-quality.yml   caller workflow, pinned to imrohitagrawal/.github's v7 tag by commit SHA
+.github/workflows/pr-quality.yml   caller workflow, pinned to imrohitagrawal/.github's v8 tag by commit SHA
 .github/CODEOWNERS                 default owner (* @imrohitagrawal) -- edit as the repo grows
 .github/dependabot.yml             github-actions update tracking (examples for other ecosystems inside)
 AGENTS.md                          Codex's review config (severity rules, checklist, output format)
@@ -93,7 +93,7 @@ which this template exists to shorten, not replace.
 ## Staying current
 
 `.github/workflows/pr-quality.yml` pins the reusable workflow by commit SHA
-(with a `# v7` comment for readability), not the mutable tag, per
+(with a `# v8` comment for readability), not the mutable tag, per
 `imrohitagrawal/.github`'s versioning policy. When a new tag ships, bump the
 SHA and the comment together -- see the comment above the `uses:` line in
 that file for the exact command.

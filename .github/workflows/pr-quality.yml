@@ -15,11 +15,11 @@ concurrency:
 jobs:
   quality-gate:
     if: github.event.pull_request.draft == false
-    # Pinned by commit SHA, not the mutable `v7` tag, per imrohitagrawal/.github's
+    # Pinned by commit SHA, not the mutable `v8` tag, per imrohitagrawal/.github's
     # versioning policy (see its docs/repo-onboarding.md and the redesign plan's
     # section 4) -- the same SHA-pin treatment WP2 applied to third-party actions
     # inside the reusable workflow, applied one level up to the reusable workflow
-    # reference itself. The `# v7` comment is for human readability only; it is
+    # reference itself. The `# v8` comment is for human readability only; it is
     # not consumed by GitHub. To bump: resolve the new tag's commit
     # (`git -C <clone of imrohitagrawal/.github> rev-parse vN^{commit}`) and
     # replace both the SHA and the comment together.
@@ -37,4 +37,9 @@ jobs:
     # notes for the one behaviour change that needs a consumer's attention: a
     # placeholder Makefile target is now correctly distrusted, so the native
     # lint/typecheck/test step runs instead of being skipped.
-    uses: imrohitagrawal/.github/.github/workflows/reusable-pr-quality.yml@c58ba53059c2a7f7c67f0b8051886f445c220010 # v7
+    #
+    # Bumped from v7 to v8 (2026-10-30): v8 moves the reusable workflow's own
+    # actions to their current major versions (checkout v7, setup-uv v10,
+    # setup-node v7, setup-python v7), plus fixes to that repo's own self-tests
+    # and retrofit script. The reusable workflow's inputs are unchanged.
+    uses: imrohitagrawal/.github/.github/workflows/reusable-pr-quality.yml@6e35f5c35ef38df74b8f867196186f588c5802cf # v8
