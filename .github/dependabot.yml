@@ -6,7 +6,7 @@
 #
 # Keep an entry only for an ecosystem whose manifest or lock file the repository really has: an entry
 # without one opens no pull requests. This template has none yet, so only the GitHub Actions entry
-# is active; when you add a manifest, copy the example below and change its package-ecosystem.
+# is active; when you add a manifest, copy the matching example below (or adapt one, per its note).
 version: 2
 updates:
   - package-ecosystem: "github-actions"
@@ -22,8 +22,9 @@ updates:
         patterns: ["*"]
         update-types: ["minor", "patch"]
 
-  # Examples, same shape (ecosystem names: "npm", "pip", "uv" for a uv.lock, "docker" for
-  # Dockerfiles, "docker-compose" for compose files):
+  # Examples. npm and pip split minor and patch updates by dependency type, so development and runtime
+  # bumps get their own pull requests and review tiers. For "uv" (uv.lock), "docker" and "docker-compose",
+  # which do not support dependency-type in groups, use one minor-patch group as in the entry above.
   #
   # - package-ecosystem: "npm"
   #   directory: "/"
@@ -33,7 +34,32 @@ updates:
   #     default-days: 7
   #   open-pull-requests-limit: 5
   #   groups:
-  #     npm-minor-patch:
+  #     npm-development-minor-patch:
   #       applies-to: version-updates
+  #       dependency-type: "development"
+  #       patterns: ["*"]
+  #       update-types: ["minor", "patch"]
+  #     npm-production-minor-patch:
+  #       applies-to: version-updates
+  #       dependency-type: "production"
+  #       patterns: ["*"]
+  #       update-types: ["minor", "patch"]
+  #
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 7
+  #   open-pull-requests-limit: 5
+  #   groups:
+  #     pip-development-minor-patch:
+  #       applies-to: version-updates
+  #       dependency-type: "development"
+  #       patterns: ["*"]
+  #       update-types: ["minor", "patch"]
+  #     pip-production-minor-patch:
+  #       applies-to: version-updates
+  #       dependency-type: "production"
   #       patterns: ["*"]
   #       update-types: ["minor", "patch"]

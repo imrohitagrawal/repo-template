@@ -102,10 +102,12 @@ that file for the exact command.
 minor and patch updates are grouped, each major version arrives as its own
 pull request, and updates wait 7 days after a release. When your repo gains a
 manifest (`package.json`, `requirements.txt`, `uv.lock`, a `Dockerfile`, a
-compose file), copy the commented example in that file and change its `package-ecosystem`
-(and group name). Add an entry only for a manifest that exists: Dependabot
-needs a manifest or lock file for each entry and opens no pull requests for
-one without.
+compose file), copy the matching commented example in that file. The npm and
+pip examples split minor and patch updates into development and production
+groups, so each gets its own pull request; for uv and Docker, which do not
+support that split, use one group as the `github-actions` entry does. Add an
+entry only for a manifest that exists: Dependabot needs a manifest or lock
+file for each entry and opens no pull requests for one without.
 
 ## Before you start writing your own code
 
