@@ -55,8 +55,9 @@ This template gets you through the file-copying part of onboarding. It does
    `.github/workflows/pr-quality.yml`'s `quality-gate` job -- without those
    inputs, the reusable workflow only looks for manifests at the repo root
    and won't find either stack in a subdirectory.
-   Then copy the commented example in `.github/dependabot.yml` and set its
-   `package-ecosystem` (`npm`, `pip` or `uv`) so Dependabot tracks your packages.
+   Then copy the commented npm or pip example in `.github/dependabot.yml` (for
+   `uv`, copy the `github-actions` entry and set `package-ecosystem: "uv"`) so
+   Dependabot tracks your packages.
 
 2. **Open a PR** and let the `quality-gate` check run once. A green check on
    a brand-new repo does not by itself prove every listed check ran and
@@ -102,10 +103,10 @@ that file for the exact command.
 minor and patch updates are grouped, each major version arrives as its own
 pull request, and updates wait 7 days after a release. When your repo gains a
 manifest (`package.json`, `requirements.txt`, `uv.lock`, a `Dockerfile`, a
-compose file), copy the matching commented example in that file. The npm and
-pip examples split minor and patch updates into development and production
-groups, so each gets its own pull request; for uv and Docker, which do not
-support that split, use one group as the `github-actions` entry does. Add an
+compose file), copy the npm or pip example in that file. They split minor and
+patch updates into development and production groups, so each gets its own
+pull request. uv and Docker do not support that split: copy the
+`github-actions` entry instead and change its `package-ecosystem`. Add an
 entry only for a manifest that exists: Dependabot needs a manifest or lock
 file for each entry and opens no pull requests for one without.
 
